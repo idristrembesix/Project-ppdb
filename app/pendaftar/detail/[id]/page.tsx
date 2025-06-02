@@ -1,19 +1,34 @@
-import { notFound } from "next/navigation";
-import { axiosClient } from "@/lib/axiosClient";
+"use client";
+import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
+import { axiosClient } from "@/lib/axiosClient";
 
 interface PageProps {
   params: { id: string };
 }
 
-export default async function DetailPendaftarPage({ params }: PageProps) {
-  const res = await axiosClient.get(`/pendaftar/detail-siswa/${params.id}`);
+export default function DetailPendaftarPage({ params }: PageProps) {
+  const [pendaftar, setPendaftar] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  if (res.status !== 200) {
-    notFound();
-  }
+  useEffect(() => {
+    console.log("Fetching data untuk id:", params.id); // Log id yang dikirim
+    axiosClient.get(`/pendaftar/detail-siswa/${params.id}`)
+      .then(res => {
+        console.log("RESPON API:", res.data);
+        setPendaftar(res.data.data);
+      })
+      .catch(err => {
+        console.error("Gagal ambil data:", err);
+        setPendaftar(null); // Biar tetap muncul "Data tidak ditemukan"
+      })
+      .finally(() => setLoading(false));
+  }, [params.id]);
 
-  const pendaftar = res.data;
+  console.log("Render: pendaftar =", pendaftar); // Log pendaftar di render
+
+  if (loading) return <div>Loading...</div>;
+  if (!pendaftar || Object.keys(pendaftar).length === 0) return <div>Data tidak ditemukan</div>;
 
   return (
     <div className="grid grid-cols-12 min-h-screen bg-gradient-to-br from-green-50 to-yellow-50">

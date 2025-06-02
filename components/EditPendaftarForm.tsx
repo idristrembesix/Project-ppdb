@@ -32,16 +32,16 @@ export function EditPendaftarForm({ id }: EditPendaftarFormProps) {
       .get(`/pendaftar/detail-siswa/${id}`)
       .then((res) => {
         setForm({
-          nama: res.data.nama ?? "",
-          nis: res.data.nis ?? "",
-          nisn: res.data.nisn ?? "",
-          nik: res.data.nik ?? "",
-          tempatLahir: res.data.tempatLahir ?? "",
-          tanggalLahir: res.data.tanggalLahir ?? "",
-          jenisKelamin: res.data.jenisKelamin ?? "",
-          asalSekolah: res.data.asalSekolah ?? "",
-          noTelpSiswa: res.data.noTelpSiswa ?? "",
-          alamatSiswa: res.data.alamatSiswa ?? "",
+          nama: res.data.data.nama ?? "",
+          nis: res.data.data.nis ?? "",
+          nisn: res.data.data.nisn ?? "",
+          nik: res.data.data.nik ?? "",
+          tempatLahir: res.data.data.tempatLahir ?? "",
+          tanggalLahir: res.data.data.tanggalLahir ?? "",
+          jenisKelamin: res.data.data.jenisKelamin ?? "",
+          asalSekolah: res.data.data.asalSekolah ?? "",
+          noTelpSiswa: res.data.data.noTelpSiswa ?? "",
+          alamatSiswa: res.data.data.alamatSiswa ?? "",
         });
       })
       .catch(() => setError("Gagal mengambil data pendaftar"))
